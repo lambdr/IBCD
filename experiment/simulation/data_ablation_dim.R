@@ -4,7 +4,6 @@ library(hdf5r)
 library(mc2d)
 library(foreach)
 library(doRNG)
-library(tidyverse)
 
 base_dir <- file.path(getwd(), "ablation_d")
 int_beta <- -1.5

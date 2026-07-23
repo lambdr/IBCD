@@ -7,7 +7,6 @@ library(doParallel)
 library(foreach)
 library(progressr)
 library(doRNG)
-library(tidyverse)
 library(mc2d)
 
 multiple_iv_reg_UV <- function(target, .X, .targets){

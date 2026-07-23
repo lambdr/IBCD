@@ -21,20 +21,29 @@ from iv_regression import xi_norm, run_all_IV
 
 def main(args):
     os.makedirs(args.output_dir, exist_ok=True)
+    
+    
+    if args.sumstats:
+        print("Loading summary statistics...")
+        Rhat_path = f"{args.data}/R.csv"
+        xi_path = f"{args.data}/xi.csv"
+        U_path = f"{args.data}/U.csv"
+        V_path = f"{args.data}/{args.v_file}.csv"
 
-    df = pd.read_csv(args.data)
+    else:
+        df = pd.read_csv(args.data)
 
-    xi_norm(df, out_dir=args.output_dir)
+        xi_norm(df, out_dir=args.output_dir)
 
-    #print("2) Running 2SLS IV regressions...")
-    run_all_IV(df, out_dir=args.output_dir)
+        #print("2) Running 2SLS IV regressions...")
+        run_all_IV(df, out_dir=args.output_dir)
 
-    # 2SLS outputs
-    Rhat_path = f"{args.output_dir}/R.csv"
-    SE_hat_path = f"{args.output_dir}/SE_hat.csv"
-    xi_path = f"{args.output_dir}/xi.csv"
-    U_path = f"{args.output_dir}/U.csv"
-    V_path = f"{args.output_dir}/V.csv"
+        # 2SLS outputs
+        Rhat_path = f"{args.output_dir}/R.csv"
+        SE_hat_path = f"{args.output_dir}/SE_hat.csv"
+        xi_path = f"{args.output_dir}/xi.csv"
+        U_path = f"{args.output_dir}/U.csv"
+        V_path = f"{args.output_dir}/V.csv"
 
     Rhat_df = pd.read_csv(Rhat_path)
     colnames = Rhat_df.columns.tolist()
@@ -156,7 +165,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--data",
         required=True,
-        help="Path to input data CSV.",
+        help="Path to input data CSV or input sumstats CSVs.",
+    )
+
+    parser.add_argument(
+        "--sumstats",
+        action="store_true",
+        help="Should sumstats be used?" 
     )
 
     parser.add_argument(
@@ -177,6 +192,11 @@ if __name__ == "__main__":
         "--output_dir",
         required=True,
         help="Directory to save all outputs.",
+    )
+
+    parser.add_argument(
+        "--v_file",
+        help="Filename of V matrix."
     )
 
     parser.add_argument(
@@ -225,4 +245,9 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    # Check for input alignment
+    if args.sumstats and not args.v_file:
+        parser.error('Must specify --v_file if using sumstats')
+
     main(args)

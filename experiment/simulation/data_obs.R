@@ -7,7 +7,6 @@ library(doParallel)
 library(foreach)
 library(progressr)
 library(doRNG)
-library(mc2d)
 
 generate_data_inhibition <- function(G, N_cont, N_int, int_beta=-2, noise='gaussian', normalize=TRUE){
   D <- nrow(G)

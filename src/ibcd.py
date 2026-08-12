@@ -29,6 +29,7 @@ def main(args):
         xi_path = f"{args.data}/xi.csv"
         U_path = f"{args.data}/U.csv"
         V_path = f"{args.data}/{args.v_file}.csv"
+        SE_hat_path = f"{args.data}/SE_hat.csv"
 
     else:
         df = pd.read_csv(args.data)

@@ -51,7 +51,7 @@ def main():
         est_path  = args.g_est.replace("{seed}", str(seed))
 
         X_true = pd.read_csv(true_path).values
-        X_est  = pd.read_csv(est_path).values
+        X_est  = pd.read_csv(est_path, index_col=0).values
 
         auroc, auprc = compute_auroc_auprc_from_mats(X_est, X_true)
         aurocs.append(auroc)
